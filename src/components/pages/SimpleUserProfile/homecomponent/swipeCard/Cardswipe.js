@@ -35,15 +35,16 @@ useContext(AppContext);
   );
 
   useEffect(() => {
-    console.log(theme.mode);
+  
 
     if (theme.mode === "light") {
-      const objectposts = postLists?.filter((e) => e.type === "object");
+      const objectposts = postLists?.filter((e) => e.type === "object"  && e.isTaken === false);
+      console.log(objectposts)
       setPosts(objectposts);
     }
     if (theme.mode === "dark") {
-      const objectposts = postLists?.filter((e) => e.type === "food");
-
+      const objectposts = postLists?.filter((e) => e.type === "food"  && e.isTaken === false);
+      console.log(objectposts)
       setPosts(objectposts);
     }
   }, [postLists, theme.mode]);
@@ -62,7 +63,7 @@ useContext(AppContext);
         ownerId: thepost.userId.id,
       };
       dispatch(addmatches(data)).then((result) => {
-        console.log(result);
+    
         socket.emit('match');
       });
     }
@@ -75,7 +76,7 @@ useContext(AppContext);
   const cardRef = useRef(null);
 
   const handleButtonClick = async (buttonDirection) => {
-    console.log(buttonDirection);
+  
     await cardRef.current.swipe(buttonDirection);
   };
 

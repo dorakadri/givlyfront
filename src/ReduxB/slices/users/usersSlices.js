@@ -69,7 +69,7 @@ export const updateuserlocation = createAsyncThunk(
 
 const { userAuth } = getState().users;
 
-   console.log( userAuth)
+
 
     try {
       const config = {
@@ -262,7 +262,7 @@ export const userProfileAction = createAsyncThunk(
     //get user token
     const user = getState()?.users;
     const { userAuth } = user;
-    console.log(userAuth);
+
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
@@ -346,7 +346,7 @@ const usersSlices = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(registerUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+   
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -382,7 +382,7 @@ const usersSlices = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(banUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+  
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -400,7 +400,7 @@ const usersSlices = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(unbanUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+   
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -408,21 +408,21 @@ const usersSlices = createSlice({
     //logout
     builder.addCase(logoutAction.pending, (state, action) => {
       state.loading = false;
-      console.log(state);
+     
     });
     builder.addCase(logoutAction.fulfilled, (state, action) => {
-      console.log(state);
+   
       state.userAuth = undefined;
       state.loading = false;
       state.appErr = undefined;
       state.serverErr = undefined;
-      console.log(state);
+     
     });
     builder.addCase(logoutAction.rejected, (state, action) => {
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
       state.loading = false;
-      console.log(state);
+   
     });
 
     //Profile
@@ -460,7 +460,7 @@ const usersSlices = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(updateUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -533,7 +533,7 @@ const userslist = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(registerUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+  
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -569,7 +569,7 @@ const userslist = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(banUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -587,7 +587,7 @@ const userslist = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(unbanUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -595,21 +595,21 @@ const userslist = createSlice({
     //logout
     builder.addCase(logoutAction.pending, (state, action) => {
       state.loading = false;
-      console.log(state);
+    
     });
     builder.addCase(logoutAction.fulfilled, (state, action) => {
-      console.log(state);
+   
       state.userAuth = undefined;
       state.loading = false;
       state.appErr = undefined;
       state.serverErr = undefined;
-      console.log(state);
+     
     });
     builder.addCase(logoutAction.rejected, (state, action) => {
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
       state.loading = false;
-      console.log(state);
+
     });
 
     //Profile
@@ -647,7 +647,7 @@ const userslist = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(updateUserAction.rejected, (state, action) => {
-      console.log(action.payload);
+  
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;

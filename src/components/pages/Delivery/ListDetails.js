@@ -56,7 +56,7 @@ setData(selector );
 
     }, [])
 
-    console.log(selector);
+  
 
     function Tracking(e){
         navigate(`../detaildelivery/${e._id}`)
@@ -185,7 +185,7 @@ setData(selector );
             };
         })
 
-        console.log(rows)
+   
 
     
 

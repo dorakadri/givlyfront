@@ -6,7 +6,7 @@ export const addPostAction = createAsyncThunk(
   "posts/",
   async (post, { rejectWithValue, getState, dispatch }) => {
     const { userAuth } = getState().users;
-    console.log(post);
+   
     try {
       const config = {
         headers: { "Content-Type": "application/json" },
@@ -72,8 +72,7 @@ export const deletewishlistAction = createAsyncThunk(
 export const updatePostAction = createAsyncThunk(
   "posts/update",
   async ({id,post}, { rejectWithValue, getState, dispatch }) => {
-  console.log(post)
-  console.log(id)
+
     try {
       
       const { data } = await axios.put(
@@ -122,6 +121,19 @@ export const fetchPostsMatchedAction = createAsyncThunk(
     }
   }
 );
+export const fetchPostsTakenAction = createAsyncThunk(
+  "postsTaken/list",
+  async (_, { rejectWithValue, getState, dispatch }) => {
+    const { userAuth } = getState().users;
+    try {
+      const { data } = await axios.get(`https://givly-api.onrender.com/api/mainposts/taken/takenuser/${userAuth._id}`);
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error);
+    }
+  }
+);
 export const fetchuserPostsAction = createAsyncThunk(
   "postsuser/list",
   async (_, { rejectWithValue, getState, dispatch }) => {
@@ -145,7 +157,7 @@ export const addtowishlistAction = createAsyncThunk(
         `https://givly-api.onrender.com/api/mainposts/${id}/wishlist`,
         {_id},
       );
-      console.log(data)
+  
       return data;
    
     } catch (error) {
@@ -164,7 +176,7 @@ export const getpostbyid = createAsyncThunk(
       const { data } = await axios.get(
         `https://givly-api.onrender.com/api/mainposts/${id}`,
       );
-      console.log(data)
+    
       return data;
    
     } catch (error) {
@@ -178,12 +190,12 @@ export const addmatches = createAsyncThunk(
   async (match, { rejectWithValue, getState, dispatch }) => {
   
     try {
-      console.log(match)
+    
       const { data } = await axios.post(
         `https://givly-api.onrender.com/api/mainposts/post/add/matches`,
         match
       );
-      console.log(data)
+   
       dispatch(getmatchesuser());
       return data;
    
@@ -231,6 +243,51 @@ export const deleteMatchAction = createAsyncThunk(
     }
   }
 );
+//////
+export const updateafterscan = createAsyncThunk(
+  "updateafterscan",
+  async (datascan, { rejectWithValue, getState, dispatch }) => {
+  
+    try {
+    
+      const { data } = await axios.post(
+        `https://givly-api.onrender.com/api/mainposts/update/afterscan`,
+        datascan
+      );
+
+      dispatch(fetchPostsMatchedAction());
+      return data;
+   
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getgifts = createAsyncThunk(
+  "getgift",
+  async (_, { rejectWithValue, getState, dispatch }) => {
+  const { userAuth } = getState().users;
+
+  
+    try {
+    
+      const { data } = await axios.get(
+        `https://givly-api.onrender.com/api/gift/gift/${userAuth._id}`,
+      );
+      return data;
+   
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error);
+    }
+  }
+);
+
+
+
+
 
 
 const mainPostsSlice = createSlice({
@@ -391,7 +448,39 @@ const mainPostsSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
+    //fetchPostsTakenAction
+    builder.addCase(fetchPostsTakenAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchPostsTakenAction.fulfilled, (state, action) => {
+      state.taken= action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(fetchPostsTakenAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    //getgifts
+    builder.addCase(getgifts.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getgifts.fulfilled, (state, action) => {
+      state.giftowned= action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(getgifts.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    
   },
 });
 
 export default mainPostsSlice.reducer;
+//getgifts

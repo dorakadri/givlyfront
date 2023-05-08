@@ -6,6 +6,7 @@ import {
   fetchPostsMatchedAction,
 
 } from "../../../../ReduxB/slices/posts/mainPostsSlice";
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import {
   Alert,
   AlertTitle,
@@ -17,7 +18,17 @@ import {
   CardHeader,
   CardMedia,
 
+  Dialog,
+
+  DialogContent,
+
+  DialogTitle,
+
+  Divider,
+
   Grid,
+
+  IconButton,
 
   Typography,
 } from "@mui/material";
@@ -26,11 +37,15 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import { Delete, Edit } from "@mui/icons-material";
 import { deliveryAction } from "../../../../ReduxB/slices/delivery/deliverysSlices";
 import { useNavigate } from "react-router-dom";
-
+import QrCode2Icon from '@mui/icons-material/QrCode2';
+import { Box } from "@mui/system";
+import Scanqrcode from "./Transactions/Scanqrcode";
 export default function MatchedList() {
   const dispatch = useDispatch();
 const navigate=useNavigate();
 const [alert,setAlert]=useState(false);
+const [open1, setOpen1] = React.useState(false);
+const [postdata, setPostdata] = React.useState();
 
   useEffect(() => {
     dispatch(fetchPostsMatchedAction());
@@ -55,8 +70,11 @@ const [alert,setAlert]=useState(false);
   const clickMe = (id) => {
     dispatch(deleteMatchAction(id));
   };
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
   function AddDelevery(e){
- console.log(e)
+
     let post=e._id
 
   let locationOwner=e.userId.location
@@ -75,6 +93,11 @@ const [alert,setAlert]=useState(false);
     });
 
    }
+   const handlegenerateClick = (post) => {
+ 
+    setPostdata(post)
+    setOpen1(true);
+  };
 
 
   return (
@@ -89,7 +112,7 @@ const [alert,setAlert]=useState(false);
             key={post?._id}
             item
             xs={12}
-            md={4}
+            md={6}
             xl={4}
             style={{ padding: "1rem  1rem" }}
           >
@@ -97,6 +120,11 @@ const [alert,setAlert]=useState(false);
               <CardHeader
                 avatar={
                   <Avatar alt="ownerphoto" src={post?.userId.profilePhoto} />
+                }
+                action={
+                  <IconButton aria-label="settings" onClick={()=>handlegenerateClick(post)}  disabled={post.isTaken ? true : false}>
+                    <QrCode2Icon      />
+                  </IconButton>
                 }
                 title={
                   <Typography>
@@ -152,6 +180,25 @@ const [alert,setAlert]=useState(false);
           </Grid>
         ))}
       </Grid>
+      
+      <Dialog open={open1} onClose={handleClose1}  fullWidth={true}    maxWidth={false} >
+      <Box sx={{display: "flex", justifyContent: "center",pr:"1rem",pl:"3rem" ,alignItems: "center"}}>
+ 
+    <DialogTitle sx={{flex: 1, textAlign: "center" }}>Scan code </DialogTitle>
+
+
+    <IconButton onClick={handleClose1}>
+      <CloseOutlinedIcon/>
+    </IconButton>
+
+</Box>
+   
+        <Divider/>
+        <DialogContent  sx={{height: "800px" }}>
+        <Scanqrcode data={postdata} close={ handleClose1}  />
+        </DialogContent>
+  
+      </Dialog>
     </div>
   );
 }

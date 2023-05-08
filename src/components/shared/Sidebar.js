@@ -53,7 +53,7 @@ function Sidebar() {
 
   const user = useSelector((state) => state.users);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  console.log(user);
+
 
   const dispatch = useDispatch();
   const {
@@ -69,7 +69,7 @@ function Sidebar() {
   } = useContext(AppContext);
 
   function joinRoom(room, isPublic = true) {
-    console.log(room);
+   
     if (!user) {
       return alert("Please login");
     }
@@ -99,7 +99,7 @@ function Sidebar() {
   socket.off("new-user").on("new-user", (payload) => {
     setMembers(payload);
 
-    console.log(payload);
+    
   });
 
   function getRooms() {
@@ -107,9 +107,9 @@ function Sidebar() {
       .then((res) => res.json())
       .then((data) => setRooms(data));
   }
-  console.log(rooms);
+
   function orderIds(id1, id2) {
-    console.log(id1 + " " + id2);
+  
 
     if (id1 > id2) {
       return id1 + "-" + id2;
@@ -121,7 +121,7 @@ function Sidebar() {
   function handlePrivateMemberMsg(member) {
     setPrivateMemberMsg(member);
     const roomId = orderIds(user.userAuth._id, member._id);
-    console.log(roomId);
+  
     joinRoom(roomId, false);
   }
   // design

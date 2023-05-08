@@ -33,7 +33,7 @@ export default function UpdateProfile() {
     //User data from store
     const users = useSelector(state => state.users);
     const { profile, loading, appErr, serverErr } = users;
-console.log(profile)
+
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -47,14 +47,14 @@ console.log(profile)
     
          
         onSubmit:async values => {
-          console.log(values);
+    
           const url = await uploadImage(image);
           const v = {
             ...values,
             profilePhoto: url,
            
           };
-          console.log(v)
+    
           dispatch(updateUserAction(v));
         },
         validationSchema: formSchema,
@@ -72,7 +72,7 @@ console.log(profile)
             }
           );
           const urlData = await res.json();
-          console.log(urlData);
+    
           return urlData.url;
         } catch (error) {
           console.log(error);

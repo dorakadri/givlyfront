@@ -47,12 +47,12 @@ export default function ResetPassword() {
     },
     onSubmit: (values) => {
       //dispath the action
-      console.log(values)
+  
       const data = {
         password: values?.password,
         token:token?.token,
       };
-      console.log(  data);
+   
       dispatch(passwordResetAction(data));
     },
     validationSchema: formSchema,

@@ -8,7 +8,7 @@ import AccountVerificationSuccessAlert from "../Navigation/Alerts/AccountVerific
 import Navbar from "./Navbar";
 export default function Layout() {
   const store = useSelector((state) => state?.users);
-  console.log(store.userAuth._id);
+
   const dispatch = useDispatch();
    const account = useSelector((state) => state?.accountVerification);
    const { loading, appErr, serverErr, token } = account;
@@ -18,7 +18,7 @@ export default function Layout() {
     dispatch(userProfileAction(userAuth._id));
   }, [userAuth._id, dispatch]);
 
-  console.log(profile);
+
   return (
     <Box>
       <Box flexGrow={1}>

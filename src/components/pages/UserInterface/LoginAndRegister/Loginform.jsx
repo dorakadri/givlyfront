@@ -50,9 +50,8 @@ const { socket } = useContext(AppContext);
     validationSchema: validationSchema,
   });
   const store = useSelector((state) => state?.users);
-  console.log(store);
-  const { userAuth, loading, serverErr, appErr } = store;
 
+  const { userAuth, loading, serverErr, appErr } = store;
   
   if (userAuth) {
     if (userAuth?.role === "Admin") {
@@ -63,6 +62,9 @@ const { socket } = useContext(AppContext);
     }
     if (userAuth?.role === "Association") {
       return <Navigate to="/association/forum" />;
+    }
+    if (userAuth?.role === "Livreur") {
+      return <Navigate to="/livreur/homeLiv" />;
     }
 
     return <Navigate to="/" />;

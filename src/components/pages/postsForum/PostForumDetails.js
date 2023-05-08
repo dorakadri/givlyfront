@@ -61,7 +61,7 @@ export default function PostForumDetails(props) {
   const { userAuth } = user;
 
   const isCreatedBy = postDetails?.user?._id === userAuth?._id;
-  console.log(isCreatedBy);
+
   //redirect
   
   if (isDeleted) props.close();

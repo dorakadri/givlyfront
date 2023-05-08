@@ -54,12 +54,12 @@ export default function UserListDataGrid() {
     );
     useEffect(() => {
         myService.getalluser(store).then((users) => {
-          console.log(users);
+     
           setUsers(users.data);
         });
       }, []);
     const handleBan = (user) => {
-      console.log(user);
+   
       const updatedUsers = users.map((u) =>
         u.id === user.id ? { ...u, isBanned: true } : u
       );

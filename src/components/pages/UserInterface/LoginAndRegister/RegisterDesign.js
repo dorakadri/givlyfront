@@ -96,7 +96,7 @@ export default function RegisterDesign() {
     enableReinitialize:true,
     initialValues: initialValues,
     onSubmit: async (values) => {
-      console.log(values);
+   
       const url = await uploadImage(image);
 
       const v = {
@@ -104,13 +104,13 @@ export default function RegisterDesign() {
         profilePhoto: url,
         associationPhone: +phone.split(" ").slice(1).join(""),
       };
-      console.log(v);
+  
       dispatch(registerUserAction(v));
     },
     validationSchema: validationSchema,
   });
   function onChange(value) {
-    console.log("Captcha value:", value);
+  
     setVerified(true);
   }
 
@@ -127,7 +127,7 @@ export default function RegisterDesign() {
         }
       );
       const urlData = await res.json();
-      console.log(urlData);
+  
       return urlData.url;
     } catch (error) {
       console.log(error);

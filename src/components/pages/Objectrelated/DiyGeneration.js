@@ -24,7 +24,7 @@ function handleclick() {
 
   const diys = useSelector((state) => state.diy);
   const { diylist, loading, appErr, serverErr } = diys;
-  console.log(diylist);
+ 
   return (
     <Box p={"3rem"} >
       <Box display={"flex"} pb={"1rem"} justifyContent={"center"}>
@@ -44,7 +44,7 @@ function handleclick() {
         <CardMedia
           component="img"
           height="140"
-          image={d.imgUrl}
+          image={d.img_url}
           alt="green iguana"
         />
         <CardContent>

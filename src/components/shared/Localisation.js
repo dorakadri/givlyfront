@@ -10,7 +10,7 @@ export const Localisation = () => {
   
     useEffect(() => {
       if (navigator.geolocation) {
-        console.log("sdfsdf")
+      
         navigator.geolocation.getCurrentPosition(
           (position) => {
             setLocation({

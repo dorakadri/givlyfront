@@ -1,12 +1,12 @@
-import { Home, Mail, Notifications, Pets, PlusOneRounded } from "@mui/icons-material";
-import ForumIcon from "@mui/icons-material/Forum";
+import { Home, Mail } from "@mui/icons-material";
+
 import {
   AppBar,
   Avatar,
-  Badge,
+
   Box,
   IconButton,
-  InputBase,
+
   Menu,
   MenuItem,
   styled,
@@ -53,7 +53,7 @@ export default function Navbar(data) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  console.log(data);
+
 
   function handelLogout() {
 

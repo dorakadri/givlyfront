@@ -15,7 +15,7 @@ export default function GiftUpdate() {
       myService.getGiftbyID(id).then((response) => {
     
         setData(response.data);
-        console.log(response.data)
+   
       });
     }, []);
   

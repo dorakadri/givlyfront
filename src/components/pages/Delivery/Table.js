@@ -56,7 +56,7 @@ setData(selector );
 
     }, [])
 
-    console.log(selector);
+   
 
     function Tracking(e){
         navigate(`../detaildelivery/${e._id}`)
@@ -163,7 +163,9 @@ setData(selector );
         },
 
         {
-            field: 'Track', headerName: 'Track', width: 400, flex: 1, headerClassName: 'super-app-theme--header', renderCell: (params) => {
+            field: 'Track', headerName: 'Track', width: 400, flex: 1, 
+            headerClassName: 'super-app-theme--header',
+             renderCell: (params) => {
                 return (
                     <Button onClick={()=>Tracking(params.value)}>
                          View details </Button>
@@ -192,7 +194,7 @@ setData(selector );
             };
         })
 
-        console.log(rows)
+   
 
     
 

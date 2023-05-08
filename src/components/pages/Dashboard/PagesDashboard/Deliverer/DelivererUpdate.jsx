@@ -36,7 +36,7 @@ export default function DelivererUpdate() {
   
      setData(response.data)
      setphone(`+216 ${response.data.phone}`)
-      console.log(response)
+   
     });
   }, []);
 
@@ -56,7 +56,7 @@ export default function DelivererUpdate() {
         ...values,
         phone: +phone.split(" ").slice(1).join(""),
       };
-      console.log(v)
+  
     myService.UpdateDeliverer(id,v)
    
     .then((response) => {
@@ -72,7 +72,7 @@ export default function DelivererUpdate() {
 
   const handleChangephone = (event) => {
     formik.handleChange(event);
-    console.log(event)
+   
     formik.setFieldValue("phone",event)
     setphone(event);
   };

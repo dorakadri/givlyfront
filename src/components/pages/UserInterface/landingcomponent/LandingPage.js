@@ -33,7 +33,7 @@ export default function LandingPage() {
   const store = useSelector((state) => state?.users);
   
   const {userAuth, loading ,serverErr, appErr} = store;
-  console.log(userAuth);
+ 
   return (
     <Suspense fallback={<div>Loading...</div>}>
     <StyledBox>

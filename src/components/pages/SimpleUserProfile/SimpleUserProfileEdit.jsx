@@ -55,13 +55,13 @@ export default function UpdateProfile() {
     },
 
     onSubmit: async (values) => {
-      console.log(values);
+    
       const url = await uploadImage(image);
       const v = {
         ...values,
         profilePhoto: url,
       };
-      console.log(v);
+   
       dispatch(updateUserAction(v));
       navigate("/user/profile");
     },
@@ -80,7 +80,7 @@ export default function UpdateProfile() {
         }
       );
       const urlData = await res.json();
-      console.log(urlData);
+  
       return urlData.url;
     } catch (error) {
       console.log(error);

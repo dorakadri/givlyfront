@@ -11,12 +11,12 @@ import imagebg from "../../UserInterface/LoginAndRegister/hd.jpg";
 export default function AccountVerifed() {
   const isnonMobile = useMediaQuery("(min-width :600px)");
   const isNonMobileScreen = useMediaQuery("(min-width:1000px)");
-   // console.log(props);
+  
 const token = useParams();
     const dispatch = useDispatch();
     //verify account
     useEffect(() => {
-        console.log(token.token)
+  
       dispatch(verifyAccountAction(token.token));
     }, [dispatch, token]);
 

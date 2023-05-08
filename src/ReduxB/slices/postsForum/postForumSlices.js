@@ -12,7 +12,7 @@ const resetPostDelete = createAction("post/delete");
 export const createpostAction = createAsyncThunk(
   "post/created",
   async (postForum, { rejectWithValue, getState, dispatch }) => {
-    // console.log(post);
+  
     //get user token
     const user = getState()?.users;
     const { userAuth } = user;
@@ -47,7 +47,7 @@ export const createpostAction = createAsyncThunk(
 export const updatePostAction = createAsyncThunk(
   "post/updated",
   async (postForum, { rejectWithValue, getState, dispatch }) => {
-    console.log(postForum);
+   
     //get user token
     const user = getState()?.users;
     const { userAuth } = user;

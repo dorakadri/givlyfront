@@ -19,14 +19,14 @@ export default function Track() {
   const [step, setStep] = useState();
 
   const detail = useSelector((state) => state?.delivery);
-  console.log(detail.getOne);
+
   useEffect(() => {
     if (detail.getOne?.state === "New") {
       setStep(0);
     } else if (detail.getOne?.state === "Transit") {
       setStep(1);
     } else if (detail.getOne?.state === "Delivered") {
-      setStep(2);
+      setStep(3);
     }
   }, [detail]);
 

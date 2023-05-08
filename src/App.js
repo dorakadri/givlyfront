@@ -23,6 +23,8 @@ import {
   CssBaseline,
   ThemeProvider,
 } from "@mui/material";
+import QrCode from "./components/pages/Delivery/QrCode";
+import DashbordLiv from "./components/pages/DashbordLiv";
 
 
 function App() {
@@ -45,8 +47,7 @@ function App() {
       const url = "https://givly-api.onrender.com/auth/login/success";
       const { data } = await axios.get(url, { withCredentials: true });
       setUser(data.user._json);
-      console.log(user);
-      console.log(data.user._json);
+  
     } catch (err) {
       console.log(err);
     }
@@ -76,6 +77,8 @@ function App() {
     >
 
         <Routes>
+        <Route exact path="QrCode" element={<QrCode />} />
+        
           <Route exact path="*" element={<NotFound />} />
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/register" element={<Signup />} />
@@ -115,7 +118,16 @@ function App() {
               </AssoElement>
             }
           />
-     
+            <Route
+            exact
+            path="/livreur/*"
+            element={
+              <LivreurElement Role={Role}>
+                <DashbordLiv/>
+              </LivreurElement>
+              
+            }
+     />
           
           <Route
             path="/verify-account/:token"
@@ -179,6 +191,17 @@ function AssoElement({ children, Role }) {
   }, [navigate, Role]);
 
   return Role === "Association" ? <>{children}</> : null;
+}
+function LivreurElement({ children, Role }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (Role !== "Livreur") {
+      navigate(-1);
+    }
+  }, [navigate, Role]);
+
+  return Role === "Livreur" ? <>{children}</> : null;
 }
 
 

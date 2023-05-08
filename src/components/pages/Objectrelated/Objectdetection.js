@@ -35,7 +35,7 @@ export default function Objectdetection(props) {
   
   const {  loading, serverErr, appErr } = store;
 
-console.log(props)
+
   
   const initialValues = props.data
     ? {
@@ -76,7 +76,7 @@ if(props.update){
 
  dispatch(updatePostAction( {id : props.data._id , post:v} )).then(props.close)
 }else{
-  console.log(v)
+ 
   dispatch(addPostAction(v)).then(navigate('/user/home'))
 }
   
@@ -97,7 +97,7 @@ if(props.update){
         }
       );
       const urlData = await res.json();
-      console.log(urlData);
+    
       return urlData.url;
     } catch (error) {
       console.log(error);
@@ -105,7 +105,7 @@ if(props.update){
   }
 
   const handleChipClick = (value) => {
-    console.log(value);
+  
     setSelectedValue(value);
   };
 
@@ -137,7 +137,7 @@ if(props.update){
 
     const classNames = results.map((result) => result.className.split(","));
     const flattenedClassNames = [].concat.apply([], classNames);
-    console.log(flattenedClassNames);
+   
     setResults(flattenedClassNames);
   };
 

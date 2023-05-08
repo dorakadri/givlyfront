@@ -24,7 +24,7 @@ function MessageForm() {
     scrollToBottom();
   }, [messages]);
 
-  console.log(messages);
+
 
   function getFormattedDate() {
     const date = new Date();

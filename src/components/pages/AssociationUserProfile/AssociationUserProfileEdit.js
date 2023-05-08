@@ -40,7 +40,7 @@ export default function UpdateProfile() {
 
   const users = useSelector((state) => state.users);
   const { profile, loading, appErr, serverErr } = users;
-console.log(profile);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -54,7 +54,7 @@ console.log(profile);
 
     onSubmit: async (values) => {
       const url = await uploadImage(image1);
-      console.log(values);
+   
       const va = {
         ...values,
         profilePhoto: url,
@@ -69,7 +69,7 @@ console.log(profile);
     validationSchema: formSchema,
   });
   async function uploadImage() {
-    console.log("upload")
+
     const data = new FormData();
     data.append("file", image1);
     data.append("upload_preset", "aup1uxxk");
@@ -82,7 +82,7 @@ console.log(profile);
         }
       );
       const urlData = await res.json();
-      console.log(urlData);
+    
       return urlData.url;
     } catch (error) {
       console.log(error);
@@ -90,7 +90,7 @@ console.log(profile);
   }
 
   const handleImageChange = (e) => {
-    console.log("hanfdl imaghe")
+
     const file = e.target.files[0];
     if (file.size >= 1048576) {
     } else {

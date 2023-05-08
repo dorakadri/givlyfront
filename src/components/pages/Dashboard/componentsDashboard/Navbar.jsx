@@ -40,7 +40,7 @@ export default function Navbar({ sidebaropen, setSidebarOpen }) {
 
   const store = useSelector((state) => state?.users);
   const navigate = useNavigate();
-  console.log(store.userAuth._id);
+ 
   
   useEffect(() => {
     dispatch(userProfileAction(store.userAuth._id));
@@ -55,7 +55,7 @@ export default function Navbar({ sidebaropen, setSidebarOpen }) {
   function handlesetting() {
     navigate(`./update/${store.userAuth._id}`);
   }
-  console.log(profile);
+
   return (
     <AppBar sx={{ position: "static", background: "none", boxShadow: "none" }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>

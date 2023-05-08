@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Grid,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Button,
+  Typography,
+  Paper,
+  CardMedia,
+  Box,
+} from "@mui/material";
 
-
-
-import { ArrowBack } from "@material-ui/icons";
-import { Button, Card, CardContent, CardHeader, Checkbox, FormControlLabel, Grid, IconButton, Paper, Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
+import { Card, CardContent, CardHeader } from "@mui/material";
 import { Favorite } from "@material-ui/icons";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
-const ingredients = [
+const ingredients1 = [
   {
     name: "flour",
     imageUrl:
@@ -67,49 +79,26 @@ const ingredients = [
     imageUrl:
       "https://images.unsplash.com/photo-1633380110125-f6e685676160?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80.jpg",
   },
-
-  /*
-    'lettuce',
-    'spinach',
-    'chicken',
-    'beef',
-    'fish',
-    'shrimp',
-    'rice',
-    'pasta',
-    'bread',
-    'cheese',
-    'yogurt',
-    'avocado',
-    'lemon',
-    'lime',
-    'orange',
-    'apple',
-    'banana',
-    'berries',
-    'nuts',
-    'seeds',
-    'chocolate',
-    'honey',
-    'vinegar',
-    'oil',*/
+  {
+    name: "banana",
+    imageUrl:
+      "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80.jpg",
+  },
 ];
 
 const generateRecipe = async (selectedIngredients) => {
-  /*
-        const apiKey = '7b3451f3f4fe4456a56e8027052142ee';
-    */
-  /*
-    const apiKey = 'effc308437ef49d1b1d6a8a3374872f7';
-*/
-  const apiKey = "16b0d3c4373e49b9ab1709c8322243b9";
+  //const apiKey = '7b3451f3f4fe4456a56e8027052142ee';
+  //  const apiKey = "16b0d3c4373e49b9ab1709c8322243b9";
+
+
+  const apiKey = 'effc308437ef49d1b1d6a8a3374872f7';
   const ingredientsString = selectedIngredients.join(",");
   const url = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKey}&ingredients=${ingredientsString}&number=3&ranking=2&ignorePantry=true&diet=low-fat&health=vegetarian`;
 
   try {
     const response = await fetch(url);
     const recipes = await response.json();
-
+  
     if (recipes.length === 0) {
       throw new Error("No recipes found.");
     }
@@ -138,12 +127,50 @@ const generateRecipe = async (selectedIngredients) => {
   }
 };
 
-const KitchenSink = () => {
+
+
+const handleSaveRecipe = async (recipe,id) => {
+  
+    try {
+        const response = await axios.post('https://givly-api.onrender.com/api/recette/'+ id, {
+            title: recipe.title,
+            ingredients: recipe.ingredients,
+            instructions: recipe.instructions,
+            image: recipe.image,
+            calories: recipe.calories
+        });
+      
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
+const KitchenSink = (props) => {
+  const { foods, setVisibility } = props;
+  const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [recipe, setRecipe] = useState(null);
   const handleBackClick = () => {
+    setVisibility(true);
     setRecipe(null);
   };
+
+  const store = useSelector((state) => state?.users);
+
+  useEffect(() => {
+    const result = ingredients1.filter((item1) =>
+      foods?.some((item2) => item1.name.includes(item2.name))
+    );
+    const uniqueValus = Object.values(
+      [...ingredients, ...result].reduce((obj, item) => {
+        obj[item.name] = item;
+        return obj;
+      }, {})
+    );
+
+    setIngredients(uniqueValus);
+  }, [foods]);
   const handleCheckboxChange = (event) => {
     const { value } = event.target;
 
@@ -157,246 +184,240 @@ const KitchenSink = () => {
   const handleGenerateClick = async () => {
     const recipeData = await generateRecipe(selectedIngredients);
     setRecipe(recipeData);
+    if (
+      recipeData != null &&
+      Array.isArray(recipeData) &&
+      recipeData.length > 0
+    )
+      setVisibility(false);
   };
 
   return (
-    <div
-      style={{
-        backgroundImage:
-          "url('https://images.pexels.com/photos/349610/pexels-photo-349610.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 20,
-        opacity: 0.9,
-      }}
-    >
-      <Grid container spacing={2} >
-        {!recipe && (
-          <div>
-            <Grid item xs={12} >
-              <Typography variant="h3"  pb={"1rem"}       textAlign= 'center'  >
-                Select ingredients
-              </Typography>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {ingredients.map((ingredient) => (
-                  <div key={ingredient.name} style={{ margin: "10px" }}>
-                    <FormControlLabel
-                      key={ingredient.name}
-                      control={
-                        <Checkbox
-                          checked={selectedIngredients.includes(
-                            ingredient.name
-                          )}
-                          onChange={handleCheckboxChange}
-                          value={ingredient.name}
-                        />
-                      }
-                      label={
-                        <div
+    <Grid container spacing={2}>
+      {!recipe && (
+        <div>
+          <Grid item xs={12} style={{ marginTop: "30px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {ingredients.map((ingredient) => (
+                <div key={ingredient.name} style={{ margin: "10px" }}>
+                  <FormControlLabel
+                    key={ingredient.name}
+                    control={
+                      <Checkbox
+                        checked={selectedIngredients.includes(ingredient.name)}
+                        onChange={handleCheckboxChange}
+                        value={ingredient.name}
+                      />
+                    }
+                    label={
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          src={ingredient.imageUrl}
+                          alt={ingredient.name}
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
+                            width: "200px",
+                            height: "150px",
+                            objectFit: "contain",
+                            marginBottom: "10px",
                           }}
-                        >
-                          <img
-                            src={ingredient.imageUrl}
-                            alt={ingredient.name}
-                            style={{
-                              width: "200px",
-                              height: "150px",
-                              objectFit: "contain",
-                              marginBottom: "10px",
-                            }}
-                          />
-                          <Typography variant="body1">
-                            {ingredient.name}
-                          </Typography>
-                        </div>
-                      }
-                    />
-                  </div>
-                ))}
-              </div>
-            </Grid>
-            <Grid item xs={12}  pt={"1rem"}       textAlign= 'center'  >
+                        />
+                        <Typography variant="body1">
+                          {ingredient.name}
+                        </Typography>
+                      </div>
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          </Grid>
+
+          {foods?.length > 0 && (
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Button
-         
                 variant="contained"
                 color="primary"
+                disabled={!selectedIngredients.length}
                 onClick={handleGenerateClick}
               >
                 Generate Recipe
               </Button>
             </Grid>
-          </div>
-        )}
-        <Grid item xs={12}>
-          {recipe && (
-            <div
+          )}
+        </div>
+      )}
+      <Grid item xs={12}>
+        {recipe && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+
+              justifyContent: "center",
+              padding: 20,
+              opacity: 0.9,
+            }}
+          >
+            <IconButton
+              id="back50"
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                backgroundImage:
-                  "url('https://images.pexels.com/photos/349610/pexels-photo-349610.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1.jpg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                minHeight: "100vh",
-                justifyContent: "center",
-                padding: 20,
-                opacity: 0.9,
+                position: "absolute",
+                top: "80px",
+                left: "260px",
+                backgroundColor: "white",
+                zIndex: 10,
+              }}
+              onClick={handleBackClick}
+            >
+              <ArrowBack />
+            </IconButton>
+            <Grid
+              container
+              spacing={2}
+              style={{
+                backgroundColor: "rgba(245, 245, 245, 0.0)",
+                padding: "20px",
               }}
             >
-              <IconButton
-                style={{
-                  position: "absolute",
-                  top: "20px",
-                  left: "20px",
-                  backgroundColor: "white",
-                  zIndex: 10,
-                }}
-                onClick={handleBackClick}
-              >
-                <ArrowBack />
-              </IconButton>
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  backgroundColor: "rgba(245, 245, 245, 0.0)",
-                  padding: "20px",
-                }}
-              >
-                {recipe.map((r, index) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    key={r.title}
-                    style={{ backgroundColor: "rgba(245, 245, 245, 0.6)" }}
+              {recipe.map((r, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  key={r.title}
+                  style={{ backgroundColor: "rgba(245, 245, 245, 0.6)" }}
+                >
+                  <Paper
+                    style={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      backgroundColor: "rgba(245, 245, 245, 0.6)",
+                    }}
                   >
-                    <Paper
+                    <Box
                       style={{
-                        height: "100%",
                         display: "flex",
                         flexDirection: "column",
-                        justifyContent: "space-between",
-                        backgroundColor: "rgba(245, 245, 245, 0.6)",
+                        height: "100%",
                       }}
                     >
+                      <div>
+                        <Box>
+                          <Typography
+                            variant="h3"
+                            style={{ margin: "10px", textAlign: "center" }}
+                          >{`Recipe ${index + 1}`}</Typography>
+                          <Typography
+                            variant="h4"
+                            style={{ margin: "10px", textAlign: "center" }}
+                          >
+                            {r.title}
+                          </Typography>
+                        </Box>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <Typography
+                            variant="h6"
+                            style={{ marginRight: "10px", marginLeft: "14px" }}
+                          >
+                            Calories:
+                          </Typography>
+                          <div>
+                            <Typography
+                              variant="body1"
+                              style={{ margin: "10px 0" }}
+                            >
+                        
+                                {r.calories}
+                             
+                              <Typography
+                                variant="body1"
+                                style={{ display: "inline" }}
+                              >
+                                calories
+                              </Typography>
+                            </Typography>
+                          </div>
+                        </div>
+                        <Typography pl="1rem" variant="h6">
+                          Ingredients:
+                        </Typography>
+                        <Box px="2rem" py="1rem">
+                          <Typography
+                            align="right"
+                            variant="body1"
+                            style={{ margin: "10px 0", display: "inline" }}
+                          >
+                            <span style={{ marginRight: "5px" }}>
+                              {r.ingredients}
+                            </span>
+                          </Typography>
+                        </Box>
+                        <Typography pl="1rem" variant="h6">
+                          Instructions:
+                        </Typography>
+                        <Box py="1rem">
+                          <Typography px="2rem" variant="body1">
+                            <span style={{ marginRight: "5px" }}>
+                              {r.instructions}
+                            </span>
+                          </Typography>
+                        </Box>
+                      </div>
                       <div
                         style={{
                           display: "flex",
-                          flexDirection: "column",
+                          alignItems: "flex-end",
                           height: "100%",
                         }}
                       >
-                        <div>
-                          <Typography
-                            variant="h4"
-                            style={{ margin: "10px" }}
-                          >{`Recipe ${index + 1}`}</Typography>
-                          <Typography variant="h5" style={{ margin: "10px" }}>
-                            {r.title}
-                          </Typography>
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
-                            <Typography
-                              variant="h6"
-                              style={{
-                                marginRight: "10px",
-                                marginLeft: "14px",
-                              }}
-                            >
-                              Calories:
-                            </Typography>
-                            <div>
-                              <Typography
-                                variant="body1"
-                                style={{ margin: "10px 0" }}
-                              >
-                                <span style={{ marginRight: "5px" }}>
-                                  {r.calories}
-                                </span>
-                                <Typography
-                                  variant="body1"
-                                  style={{ display: "inline" }}
-                                >
-                                  calories
-                                </Typography>
-                              </Typography>
-                            </div>
-                          </div>
-                          <Typography
-                            variant="h6"
-                            style={{ marginRight: "71%" }}
-                          >
-                            Ingredients:
-                          </Typography>
-                          <div>
-                            <Typography
-                              align="right"
-                              variant="body1"
-                              style={{ margin: "10px 0", display: "inline" }}
-                            >
-                              <span style={{ marginRight: "5px" }}>
-                                {r.ingredients}
-                              </span>
-                            </Typography>
-                          </div>
-                          <Typography
-                            variant="h6"
-                            style={{ marginRight: "71%" }}
-                          >
-                            Instructions:
-                          </Typography>
-                          <div>
-                            <Typography
-                              align="right"
-                              variant="body1"
-                              style={{ margin: "10px 0", display: "inline" }}
-                            >
-                              <span style={{ marginRight: "5px" }}>
-                                {r.instructions}
-                              </span>
-                            </Typography>
-                          </div>
-                        </div>
-                        <div
+                        <img
+                          src={r.image}
+                          alt={r.title}
                           style={{
-                            display: "flex",
-                            alignItems: "flex-end",
-                            height: "100%",
+                            width: "100%",
+                            height: "auto",
+                            objectFit: "cover",
                           }}
-                        >
-                          <img
-                            src={r.image}
-                            alt={r.title}
-                            style={{
-                              width: "100%",
-                              height: "auto",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </div>
+                        />
                       </div>
-                      {/*<Button variant="contained" color="primary" style={{ margin: '10px' }}>Save Recipe</Button>*/}
-                    </Paper>
-                  </Grid>
-                ))}
-              </Grid>
-            </div>
-          )}
-        </Grid>
+                    </Box>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ margin: "10px" }}
+                      onClick={() => handleSaveRecipe(r, store.userAuth._id )}
+                    >
+                      <Favorite />
+                    </Button>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        )}
       </Grid>
-    </div>
+    </Grid>
   );
 };
 

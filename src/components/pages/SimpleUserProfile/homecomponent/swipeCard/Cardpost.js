@@ -26,8 +26,7 @@ export default function Cardpost(props) {
   const [post, setPost] = useState(props.data);
   const [info, setInfo] = useState(false);
   const user=useSelector((state)=>state?.users.profile)
-  console.log(user
-    );
+  
   const displayinfo = () => {
     setInfo(!info);
   };

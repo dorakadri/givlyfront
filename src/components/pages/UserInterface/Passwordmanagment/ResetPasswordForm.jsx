@@ -28,7 +28,7 @@ export default function ResetPasswordForm() {
       });
       const users = useSelector(state => state?.users);
       const { passwordToken, loading, appErr, serverErr } = users;
-      console.log(passwordToken)
+   
   return (
     <Box  sx={{
       background: `url(${imagebg})`,

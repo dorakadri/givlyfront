@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import Sidebar from "../components/shared/Sidebar";
 import MessageForm from "../components/shared/MessageForm";
 

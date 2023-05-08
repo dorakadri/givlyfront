@@ -12,7 +12,7 @@ import Sidebar from "./Sidebar";
 
 export default function Layout() {
   const store = useSelector((state) => state?.users);
-  console.log(store.userAuth._id);
+ 
   const dispatch = useDispatch();
   const account = useSelector((state) => state?.accountVerification);
   const { loading, appErr, serverErr, token } = account;

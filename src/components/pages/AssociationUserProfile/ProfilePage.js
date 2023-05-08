@@ -1,51 +1,43 @@
-import React, { useEffect } from 'react'
-import ProfileCrad from './ProfileCrad'
+import React, { useEffect } from "react";
+import ProfileCrad from "./ProfileCrad";
 
-import TabProfile from './TabProfile'
-import { useDispatch, useSelector } from 'react-redux';
-import { userProfileAction } from '../../../ReduxB/slices/users/usersSlices';
+import TabProfile from "./TabProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { userProfileAction } from "../../../ReduxB/slices/users/usersSlices";
 
-import styled from '@emotion/styled';
-import { Box } from '@mui/system';
-import { Grid, Paper } from '@mui/material';
-import AccountVerifed from '../Navigation/Alerts/AccountVerifed';
+import styled from "@emotion/styled";
+import { Box } from "@mui/system";
+import { Grid, Paper } from "@mui/material";
 
-
-
+//qsdsqdqsd
 const Item = styled(Paper)(() => ({
- 
   padding: "1rem",
-  textAlign: 'center',
-  color: 'black',
+  textAlign: "center",
+  color: "black",
 }));
 export default function ProfilePage() {
+  const store = useSelector((state) => state?.users);
 
-  const store = useSelector((state) => state?.users) 
-  console.log(store.userAuth._id)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  useEffect( () => {
-  dispatch(userProfileAction(store.userAuth._id))
-  },
-  [store.userAuth._id,dispatch]
-  )
-const { profile } = store 
-console.log(profile);
- 
-  
+  useEffect(() => {
+    dispatch(userProfileAction(store.userAuth._id));
+  }, [store.userAuth._id, dispatch]);
+  const { profile } = store;
   return (
-    <Box  sx={{ mx:"2rem" }}>
-    <Grid container spacing={2} sx={{ mt:"2rem" }} >
-
- 
-  <Grid item xs={4}>
-    <ProfileCrad data={profile}/>
+    <Box sx={{ p: "2rem", backgroundColor: "#F0F2F5" }} mx="auto">
+      <Grid container spacing={3} justifyContent="center">
+        <Grid
+          item
+          xs={3}
+          style={{ position: "sticky", top: "70px", height: "743px" }}
+        >
+          <ProfileCrad data={profile} />
         </Grid>
-        <Grid item xs={8}>
-          <Item>  <TabProfile/></Item>
+        <Grid item xs={5}>
+          <TabProfile />
         </Grid>
       </Grid>
     </Box>
-
-  )
+  );
 }

@@ -16,7 +16,7 @@ const LeafletMaps = () => {
   }, [params.id, dispatch]);
 
   const detail = useSelector((state) => state?.delivery?.getOne);
-  console.log(detail);
+
 
   const map = useMap();
   let DefaultIcon = L.icon({

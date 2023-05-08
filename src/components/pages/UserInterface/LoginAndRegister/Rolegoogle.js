@@ -95,7 +95,7 @@ export default function Rolegoogle(user) {
         
 
       };
-      console.log(v);
+  
       dispatch(registerUserAction(v));
 
 

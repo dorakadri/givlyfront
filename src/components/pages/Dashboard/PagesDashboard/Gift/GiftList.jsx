@@ -16,8 +16,7 @@ export default function GiftList() {
   }, []);
   function handleDelete  (id) {
  
-      console.log('Deleting gift with id:', id);
-      console.log('myService:', myService);
+   
       myService.deleteGiftbyID(id).then(() => {
         setGifts(gifts.filter((gift) => gift._id !== id));
       });

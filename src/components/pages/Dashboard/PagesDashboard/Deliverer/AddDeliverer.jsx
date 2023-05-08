@@ -41,7 +41,7 @@ export default function AddDeliverer() {
         ...values,
         phone: +phone.split(" ").slice(1).join(""),
       };
-      console.log(v)
+
     myService.Add(v)
     .then((response) => {
       navigate("/admin/delivererlist")
@@ -57,7 +57,7 @@ export default function AddDeliverer() {
 
   const handleChangephone = (event) => {
     formik.handleChange(event);
-    console.log(event)
+   
     formik.setFieldValue("phone",event)
     setphone(event);
   };

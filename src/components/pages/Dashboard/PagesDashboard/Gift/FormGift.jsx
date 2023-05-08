@@ -63,7 +63,7 @@ const navigate=useNavigate();
             }
           );
           const urlData = await res.json();
-          console.log(urlData);
+    
           return urlData.url;
         } catch (error) {
           console.log(error);
@@ -90,7 +90,7 @@ const navigate=useNavigate();
 
   myService.update(props.data._id, v)
     .then((response) => {
-      console.log(response)
+  
    
     })
     .catch((error) => {
@@ -98,7 +98,7 @@ const navigate=useNavigate();
 } else {
   myService.postData(v)
     .then((response) => {
-      console.log(response)
+    
     })
     .catch((error) => {
       console.log(error)

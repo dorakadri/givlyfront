@@ -20,6 +20,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -28,16 +29,23 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import { Delete, Edit } from "@mui/icons-material";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import Objectdetection from '../../Objectrelated/Objectdetection'
+import QrCodeOutlinedIcon from '@mui/icons-material/QrCodeOutlined';
 import { Box } from "@mui/system";
+import Steppergenerate from "./Transactions/Steppergenerate";
+
 export default function PostsList() {
   const dispatch = useDispatch();
   const [editingPost, setEditingPost] = useState(null);
+  const [takePost, setTakePost] = useState(null);
   const [open, setOpen] = React.useState(false);
-
+  const [open1, setOpen1] = React.useState(false);
   
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleClose1 = () => {
+    setOpen1(false);
   };
   useEffect(() => {
     dispatch(fetchuserPostsAction());
@@ -46,9 +54,7 @@ export default function PostsList() {
   const { usersposts, isLoading, error } = useSelector(
     (state) => state?.mainpost
   );
-  console.log("/////////////")
-console.log(usersposts)
-console.log("/////////////")
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -68,6 +74,12 @@ const handleEditClick = (post) => {
   setEditingPost(post);
   setOpen(true);
 };
+const handlegenerateClick = (post) => {
+ 
+  setTakePost(post)
+  setOpen1(true);
+};
+
 
   return (
     <div>
@@ -115,8 +127,9 @@ const handleEditClick = (post) => {
                 {post.isTaken && <VerifiedIcon color="primary" />}
               </CardContent>
               <CardActions
-                sx={{ justifyContent: "space-evenly", flexWrap: "wrap" }}
+                sx={{ justifyContent: "space-evenly", flexDirection:"column", flexWrap: "wrap" }}
               >
+         <Box display={"flex"} gap={2} pb={2} >
                 <Button
                   onClick={() => clickMe(post._id)}
                   sx={{ mt: 1 }}
@@ -130,11 +143,18 @@ const handleEditClick = (post) => {
                 <Button sx={{ mt: 1 }} variant="contained" disabled ={post.isTaken ? true :false} startIcon={<Edit /> }          onClick={() => handleEditClick(post)}>
                   Edit
                 </Button>
+                </Box>
+                <Button sx={{ mt: 1 }}    variant="outlined"
+                  disabled ={post.isTaken ? true :false} startIcon={<QrCodeOutlinedIcon /> }          onClick={() =>  handlegenerateClick(post)}>
+                  Generate Qr Code
+                </Button>
               </CardActions>
+           
             </Card>
           </Grid>
         ))}
       </Grid>
+
       {editingPost && <Dialog open={open} onClose={handleClose}>
       <Box sx={{display: "flex", justifyContent: "center",pr:"1rem",pl:"3rem" ,alignItems: "center"}}>
  
@@ -153,6 +173,27 @@ const handleEditClick = (post) => {
         </DialogContent>
   
       </Dialog>}
+      {/* ////////////////// */}
+  
+      <Dialog open={open1} onClose={handleClose1}  fullWidth={true}    maxWidth={false} >
+      <Box sx={{display: "flex", justifyContent: "center",pr:"1rem",pl:"3rem" ,alignItems: "center"}}>
+ 
+    <DialogTitle sx={{flex: 1, textAlign: "center" }}>Transaction </DialogTitle>
+
+
+    <IconButton onClick={handleClose1}>
+      <CloseOutlinedIcon/>
+    </IconButton>
+
+</Box>
+   
+        <Divider/>
+        <DialogContent  sx={{height: "800px" }}>
+        <Steppergenerate post={takePost}  />
+        </DialogContent>
+  
+      </Dialog>
+
     </div>
   );
 }

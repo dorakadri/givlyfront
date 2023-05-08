@@ -7,8 +7,7 @@ import { Provider } from "react-redux";
 import store from "./ReduxB/store/store";
 
 import { BrowserRouter } from "react-router-dom";
-import { disableReactDevTools } from "@fvilers/disable-react-devtools";
-disableReactDevTools()
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

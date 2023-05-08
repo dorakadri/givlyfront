@@ -1,25 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import ColorizeOutlinedIcon from "@mui/icons-material/ColorizeOutlined";
-import TextField from "@mui/material/TextField";
-import FlexBetween from "../../common/FlexBetween";
-import {
-  FormControl,
-  InputBase,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-} from "@mui/material";
-import { Search } from "@mui/icons-material";
-import { Box } from "@mui/system";
+import React, { useState, useEffect,useRef  } from 'react';
+import axios from 'axios';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import ColorizeOutlinedIcon from '@mui/icons-material/ColorizeOutlined';
+import TextField from '@mui/material/TextField';
+import FlexBetween from '../../common/FlexBetween';
+import { FormControl, InputBase, InputLabel, MenuItem,Select, Stack } from '@mui/material';
+import { Search } from '@mui/icons-material';
+import { Box } from '@mui/system';
+
+
 
 function OrganisationList() {
   const [articles, setArticles] = useState([]);
@@ -27,7 +22,7 @@ function OrganisationList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [articlesPerPage, setArticlesPerPage] = useState(9);
   const [searchText, setSearchText] = useState("");
-  const [theme, setTheme] = React.useState("All");
+  const [theme, setTheme] = React.useState('All');
 
   const handleChange = (event) => {
     setTheme(event.target.value);
@@ -46,6 +41,9 @@ function OrganisationList() {
       });
   }, []);
 
+  
+
+
   // Logic for displaying current articles
   const filteredArticles = articles.filter((article) =>
     article.title.toLowerCase().includes(searchText.toLowerCase())
@@ -54,18 +52,20 @@ function OrganisationList() {
   // Logic for displaying current articles
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-  const filtredByThemeArticals = filteredArticles.filter((a) => {
-    if (theme === "All") {
-      return filteredArticles;
-    } else {
-      return a.theme === theme;
+  const filtredByThemeArticals=filteredArticles.filter((a)=>{
+    if(theme==='All'){
+      return filteredArticles
     }
-  });
-  console.log(filtredByThemeArticals.length / 9);
+    else{
+      return a.theme===theme;
+    }
+    });
+
   const currentArticles = filtredByThemeArticals.slice(
     indexOfFirstArticle,
     indexOfLastArticle
   );
+
 
   // Logic for displaying page numbers
   const pageNumbers = [];
@@ -120,62 +120,63 @@ function OrganisationList() {
   onChange={handleSearchInputChange}
   style={{ marginBottom: "10px" }}
 /> */}
-      <FlexBetween>
-        <Stack direction="row" alignItems="center">
-          <InputBase
-            placeholder="Search Organizations"
-            id="outlined-basic"
-            label="Search Organizations"
-            variant="outlined"
-            value={searchText}
-            sx={{ m: 1, minWidth: 120, maxHeight: "38px" }}
-            onChange={handleSearchInputChange}
-          />
-          <Search sx={{ color: "#b9b7b4" }} />
-        </Stack>
-        <Box flexGrow={1} />
-        <FormControl
-          sx={{ m: 1, minWidth: 120, maxHeight: "38px" }}
-          size="small"
-        >
-          <InputLabel id="demo-select-small-label">Theme</InputLabel>
-          <Select
-            labelId="demo-select-small-label"
-            id="demo-select-small"
-            value={theme}
-            label="Theme"
-            onChange={handleChange}
-          >
-            <MenuItem value="All">
-              <em>All</em>
-            </MenuItem>
-            <MenuItem value={"agriculture"}>Agriculture</MenuItem>
-            <MenuItem value={"aide-handicapes"}>Aide-handicapes</MenuItem>
-            <MenuItem value={"aide-humanitaire"}>Aide-humanitaire</MenuItem>
-            <MenuItem value={"artisanat"}>Artisanat</MenuItem>
-            <MenuItem value={"arts-culture"}>Arts-culture</MenuItem>
-            <MenuItem value={"association-pro"}>Association-pro</MenuItem>
-            <MenuItem value={"cinema"}>Cinema</MenuItem>
-            <MenuItem value={"citoyennete"}>Citoyennete</MenuItem>
-            <MenuItem value={"citoyennete-gouvernance"}>
-              Citoyennete-gouvernance
-            </MenuItem>
-            <MenuItem value={"droit-enfant"}>Droit-enfant</MenuItem>
-          </Select>
-        </FormControl>
-      </FlexBetween>
+<FlexBetween>
+  <Stack direction="row" alignItems="center">
+    <InputBase
+      placeholder="Search Organizations"
+      id="outlined-basic"
+      label="Search Organizations"
+      variant="outlined"
+      value={searchText}
+      sx={{ m: 1, minWidth: 120 ,maxHeight:'38px'}}
+      onChange={handleSearchInputChange}
+    />
+    <Search sx={{ color: "#b9b7b4" }} />
+  </Stack>
+  <Box flexGrow={1} />
+  <FormControl sx={{ m: 1, minWidth: 120 ,maxHeight:'38px'}} size="small">
+    <InputLabel id="demo-select-small-label">Theme</InputLabel>
+    <Select
+      labelId="demo-select-small-label"
+      id="demo-select-small"
+      value={theme}
+      label="Theme"
+      onChange={handleChange}
+    >
+      <MenuItem value="All">
+        <em>All</em>
+      </MenuItem>
+      <MenuItem value={'agriculture'}>Agriculture</MenuItem>
+      <MenuItem value={'aide-handicapes'}>Aide-handicapes</MenuItem>
+      <MenuItem value={'aide-humanitaire'}>Aide-humanitaire</MenuItem>
+      <MenuItem value={'artisanat'}>Artisanat</MenuItem>
+      <MenuItem value={'arts-culture'}>Arts-culture</MenuItem>
+      <MenuItem value={'association-pro'}>Association-pro</MenuItem>
+      <MenuItem value={'cinema'}>Cinema</MenuItem>
+      <MenuItem value={'citoyennete'}>Citoyennete</MenuItem>
+      <MenuItem value={'citoyennete-gouvernance'}>Citoyennete-gouvernance</MenuItem>
+      <MenuItem value={'droit-enfant'}>Droit-enfant</MenuItem>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: " 2fr 2fr 2fr ",
-          alignItems: "center",
-          justifyItems: "center",
-          justifyContent: "center",
-          gap: "50px",
-          gridGap: "50px",
-        }}
-      >
+
+      
+
+    </Select>
+  </FormControl>
+</FlexBetween>
+
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: " 2fr 2fr 2fr ",
+        alignItems: 'center',
+        justifyItems: 'center',
+        justifyContent:"center",
+        gap: "50px",
+        gridGap: '50px',
+    
+
+
+      }}>
         {currentArticles.map((article, index) => (
           <Card
             key={index}

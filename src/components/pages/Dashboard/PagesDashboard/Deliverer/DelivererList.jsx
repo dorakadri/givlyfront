@@ -13,7 +13,7 @@ export default function DelivererList() {
 
   useEffect(() => {
     myService.GetDeliverer().then((deliverers) => {
-      console.log(deliverers);
+   
       setGridRows(deliverers.data);
     });
   }, []);
