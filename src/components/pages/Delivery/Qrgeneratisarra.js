@@ -38,7 +38,7 @@ return (
     value={url2}
     size={300}
     bgColor={"#ffffff"}
-    fgColor={"#32a1ce"}
+    fgColor={"#000"}
     level={"H"}
     includeMargin={false}
     imageSettings={{
