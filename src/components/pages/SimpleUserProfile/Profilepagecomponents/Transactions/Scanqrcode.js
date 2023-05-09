@@ -104,7 +104,7 @@ export default function Scanqrcode(props) {
                 onScan={handleScanFile}
                 legacyMode
               />
-              <h3>Scanned Code: {scanResultFile}</h3>
+
             </Grid>
 
             <Grid item xl={6} lg={6} md={6} sm={12} xs={12} sx={{ mt: "2rem" }}>
